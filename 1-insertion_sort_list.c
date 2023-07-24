@@ -8,31 +8,28 @@
  */
 void insertion_sort_list(listint_t **list)
 {
-	listint_t *i;
+	listint_t *i, *j, *tmp;
 
-	if (list == NULL || (*list)->next == NULL)
-	{
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
 		return;
-	}
-	for (i = (*list)->next; i && i->prev; i = i->next)
+	for (i = (*list)->next; i != NULL; i = tmp)
 	{
-		for (; i && i->prev && i->n < i->prev->n; i = i->prev)
+		tmp = i->next;
+		j = i->prev;
+		while (j != NULL && i->n < j->n)
 		{
-			swap_i(list, i->prev, i);
-			print_list(*list);
-			i = i->next;
+			if (j->prev != NULL)
+				j->prev->next = i;
+			else
+				*list = i;
+			if (i->next != NULL)
+				i->next->prev = j;
+			i->prev = j->prev;
+			j->prev = i;
+			j->next = i->next;
+			i->next = j;
+			print_list((const listint_t *)*list);
+			j = i->prev;
 		}
 	}
 }
-
-/**
- * swap_i - Swap i
- * @head: The head
- * @i1: The first listint
- * @i2: The second listint
- *
- * Return: 0
- */
-void swap_i(listint_t **head, listint_t *i1, listint_t *i2)
-{
-	listint_t
