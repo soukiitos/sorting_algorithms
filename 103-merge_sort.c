@@ -9,7 +9,7 @@
  */
 void merge_sort(int *array, size_t size)
 {
-	size_t i, j, k, front, back;
+	size_t i, j, k, s;
 	int *buff;
 
 	if (array == NULL || size < 2)
@@ -17,25 +17,28 @@ void merge_sort(int *array, size_t size)
 	buff = malloc(sizeof(int) * size);
 	if (buff == NULL)
 		return;
-	for (i = 1; i < size; i *= 2)
+	if (size > 1)
 	{
-		for (front = 0; front < size - i; front += i * 2)
+		s = size / 2;
+		merge_sort(array, s);
+		merge_sort(array + s, size - s);
+		printf("Merging...\n[left]: ");
+		print_array(array, s);
+		printf("[right]: ");
+		print_array(array + s, size - s);
+		for (i = 0, j = s, k = 0; k < size; k++)
 		{
-			j = front + i;
-			back = front + 2 * i < size ? front + 2 * i : size;
-			printf("Merging...\n[left]: ");
-			print_array(array + front, j - front);
-			printf("[right]: ");
-			print_array(array + j, back - j);
-			for (k  = front; k < back; k++)
-				buff[k] = array[k];
-			for (k = front, j = front + i, back = j; k < back && j < front + 2 * i; k++)
-				array[k] = (buff[k] < buff[j]) ? buff[k] : buff[j++];
-			while (k < back)
-				array[k++] = buff[j++];
-			printf("[Done]: ");
-			print_array(array + front, back - front);
+			if (j == size)
+				buff[k] = array[i++];
+			else if (i == s)
+				buff[k] = array[j++];
+			else
+				buff[k] = (array[i] < array[j]) ? array[i++] : array[j++];
 		}
+		for (i = 0; i < size; i++)
+			array[i] = buff[i];
+		printf("[Done]: ");
+		print_array(array, size);
 	}
 	free(buff);
 }
