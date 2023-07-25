@@ -28,6 +28,7 @@ int lomuto_sub(int *array, size_t size, int left, int right);
 void lomuto_sort(int *array, size_t size, int left, int right);
 void shell_sort(int *array, size_t size);
 void cocktail_sort_list(listint_t **list);
+void swap(listint_t **list, listint_t *n1, listint_t *n2);
 void counting_sort(int *array, size_t size);
 void merge_sort(int *array, size_t size);
 void heap_sort(int *array, size_t size);
