@@ -38,4 +38,6 @@ void bitonic_sort(int *array, size_t size);
 void bitonic_merge(int *array, size_t size, size_t index, size_t s, char dir);
 void bitonic_s(int *array, size_t size, size_t index, size_t s, char dir);
 void quick_sort_hoare(int *array, size_t size);
+int sort_hoare_partition(int *array, size_t size, int left, int right);
+void sort_hoare(int *array, size_t size, int left, int right);
 #endif

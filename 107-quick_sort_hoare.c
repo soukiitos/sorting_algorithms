@@ -1,5 +1,57 @@
 #include "sort.h"
 /**
+ * sort_hoare_partition - The partition of quick sort hoare
+ * @array: The array
+ * @size: The size
+ * @left: The left
+ * @right: The right
+ *
+ * Return: 0
+ */
+int sort_hoare_partition(int *array, size_t size, int left, int right)
+{
+	int i, up, down, tmp;
+
+	i = array[right];
+	for (up = left - 1, down = right + 1; up < down;)
+	{
+		do {
+			up++;
+		} while (array[up] < i);
+		do {
+			down--;
+		} while (array[down] > i);
+		if (up < down)
+		{
+			tmp = array[up];
+			array[up] = array[down];
+			array[down] = tmp;
+			print_array(array, size);
+		}
+	}
+	return (up);
+}
+/**
+ * sort_hoare - The sort hoare
+ * @array: The array
+ * @size: The size
+ * @left: The left
+ * @right: The right
+ *
+ * Return: 0
+ */
+void sort_hoare(int *array, size_t size, int left, int right)
+{
+	int j;
+
+	if (right - left > 0)
+	{
+		j = sort_hoare_partition(array, size, left, right);
+		sort_hoare(array, size, left, j - 1);
+		sort_hoare(array, size, j, right);
+	}
+}
+/**
  * quick_sort_hoare - Sort an array of integers in ascending order
  * using the Quick sort algorithm
  * @array: The array
@@ -9,33 +61,7 @@
  */
 void quick_sort_hoare(int *array, size_t size)
 {
-	int i, tmp;
-	size_t left = 0, right = size - 1;
-
 	if (array == NULL || size < 2)
 		return;
-	i = array[size / 2];
-	while (left <= right)
-	{
-		while (array[left] < i)
-			left++;
-		while (array[right] > i)
-			right--;
-		if (left <= right)
-		{
-			if (array[left] != array[right])
-			{
-				tmp = array[left];
-				array[left] = array[right];
-				array[right] = tmp;
-				print_array(array, size);
-			}
-			left++;
-			right--;
-		}
-	}
-	if (right > 0)
-		quick_sort_hoare(array, right + 1);
-	if (left < size - 1)
-		quick_sort_hoare(array + left, size - left);
+	sort_hoare(array, size, 0, size - 1);
 }
